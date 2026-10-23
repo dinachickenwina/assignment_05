@@ -1,7 +1,19 @@
-Write your reflection here.
+I learned that grain means what one row represents. In the exports, one row is
+one employee for one week. concat stacks the files, and ignore_index=True gives
+the result a fresh row index. Vectorized .str methods clean many IDs and money
+values at once. With coerce, bad numbers become missing values instead of
+crashing. pd.to_datetime needs a format so it reads US and ISO dates correctly.
+Bad dates become NaT. The .dt methods then make date labels for the reports.
+Adding clean columns keeps lineage: the original values stay unchanged.
 
-See reflection.md for what makes a good reflection — be specific, use the
-terminology from this assignment (grain, long vs. wide, vectorized .str methods,
-coerce, NaT, pd.to_datetime format, .dt, concat, ignore_index, group by, named
-aggregation, reset_index, pivot_table, fill_value, melt, lineage), and make it
-actionable.
+A group by changes the grain to one row per employee. Named aggregation gives
+each total a clear name, and reset_index puts the employee keys back into
+columns. pivot_table changes long data into a wide table. fill_value=0 puts a
+zero where an employee missed a week. melt changes the grid back to long data so
+I can list those missed weeks. I still need practice checking the columns after
+a pivot, especially when some groups have no rows.
+
+Next time, I will write down what each row means before I start. I will test a
+small example with a bad number, a bad date, and a missed week. I will also
+check that the input data stays unchanged and compare report totals with the
+original history.
