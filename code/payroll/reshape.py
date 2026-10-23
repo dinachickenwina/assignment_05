@@ -34,11 +34,11 @@ def hours_grid(history: pd.DataFrame) -> pd.DataFrame:
     `fill_value=0`.
     """
     grid = history.pivot_table(
-      index=["employee_id", "display_name"],
-      columns="week_ending",
-      values="hours_worked",
-      aggfunc="sum",
-      fill_value=0,
+        index=["employee_id", "display_name"],
+        columns="week_ending",
+        values="hours_worked",
+        aggfunc="sum",
+        fill_value=0,
     )
     return grid.reset_index().sort_values("employee_id").reset_index(drop=True)
 
@@ -54,12 +54,16 @@ def missed_weeks(grid: pd.DataFrame) -> pd.DataFrame:
     `melt` the grid back to long (the two name columns stay put; the week
     columns become `week_ending` / `hours_worked` pairs), then keep the zeros.
     """
-    week_columns = [column for column in grid.columns if column not in ["employee_id", "display_name"]]
+    week_columns = [
+        column
+        for column in grid.columns
+        if column not in ["employee_id", "display_name"]
+    ]
     missed = grid.melt(
-      id_vars=["employee_id", "display_name"],
-      value_vars=week_columns,
-      var_name="week_ending",
-      value_name="hours_worked",
+        id_vars=["employee_id", "display_name"],
+        value_vars=week_columns,
+        var_name="week_ending",
+        value_name="hours_worked",
     )
     missed = missed[missed["hours_worked"] == 0]
     return missed.sort_values(["employee_id", "week_ending"]).reset_index(drop=True)
@@ -77,10 +81,10 @@ def pay_by_month(history: pd.DataFrame) -> pd.DataFrame:
     exactly the shape `st.bar_chart` draws as one bar per department.
     """
     monthly = history.pivot_table(
-      index="month",
-      columns="department",
-      values="gross_pay",
-      aggfunc="sum",
-      fill_value=0,
+        index="month",
+        columns="department",
+        values="gross_pay",
+        aggfunc="sum",
+        fill_value=0,
     )
     return monthly.reset_index().sort_values("month").reset_index(drop=True)
